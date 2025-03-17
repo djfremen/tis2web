@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+  <HEAD>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" type="text/css" href="{STYLESHEET}">
+
+    <TITLE>{TITLE}</TITLE>
+ 
+    <script type="text/javascript">
+    <!--
+           function TFormSubmit(paramName,paramValue,bookmark,targetFrame) {
+                var _form=document.forms[0];
+                if (_form) {
+                  _form.action=_form.action+"&"+paramName+"="+paramValue+"&bm="+bookmark+"#"+bookmark;
+                   if (targetFrame) {
+                      var tmp=_form.target;
+                      _form.target=targetFrame;
+                      _form.submit();
+                      _form.target=tmp;
+                   } else {
+                      _form.submit();
+                   }
+                } else {
+                    alert("form not found");
+                }
+             }
+           
+            function FormSubmit(paramName,paramValue,bookmark) {
+                TFormSubmit(paramName,paramValue,bookmark,null);
+            }
+        
+     //-->
+    </script>
+ </HEAD>
+
+
+  <BODY>
+  	<table width="100%">
+  		<tr>
+  			<td>{CONTENT}</td>
+  		</tr>
+  		<tr> 
+  			<td>&nbsp;</td>
+  		</tr>
+  			
+  		<tr>
+  			<td align="left">{NAO_NAVIGATION_HINT}</td>
+  		</tr>
+  	</table>
+  </BODY>
+</HTML>

@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+Provides the API for the download service.
+
+
+<h2>Specification and API Usage</h2>
+The download service uses several abstractions. The basic items handled by the
+download service are called {@linkplain
+com.eoos.gm.tis2web.dwnld.client.api.IDownloadUnit download units}. A download
+unit consists of one or more {@linkplain
+com.eoos.gm.tis2web.dwnld.client.api.IDownloadFile files}. Each download unit
+holds meta data for all the files comprising it, like unit version and
+unit description. Multiple unit downloads can be bundled into 1 action. Therefore they are
+pooled into {@linkplain
+com.eoos.gm.tis2web.dwnld.client.api.IDownloadPackage download packages}. Each download package
+does have its target (download) directory.
+Within this directory each file is placed relatively, corresponding to
+its meta data path information.
+
+
+<h3>Instantiation</h3>
+Instantiation is quiet simple. There are only two parameters to be provided
+explicitly. They are an arbitrary working directory and an instance of the
+callback interface. The working directory is used to store persistent
+state and must not be changed for a specific download request. Otherwise broken downloads cannot be
+resumed. The callback is used to interact with the principal (user of
+the download service). At the moment there is only one callback
+function the caller has to provide. This is to
+query the principal's credentials for using the proxy server. If there is no
+proxy in use, or the proxy does not need authorization, the callback
+does not have to be provided (as in the example below). 
+<br>There are some Java system properties that are used within the download service:
+<ul>
+	<li>"session.id" - the TIS2WEB session identification (required)</li>
+	<li>"cookie" - the HTTP-Cookie for TIS2WEB (required).</li>
+	<li>"http.proxyHost" - used to specify proxy settings, if the
+	JRE1.5 class java.net.ProxySelector cannot be used or does not detect a
+	proxy (optional).</li>
+	<li>"http.proxyPort" - proxy port setting (optional).</li>
+	<li>"task.execution.url" - the URL of the TIS2WEB server interface
+	(required).</li>
+</ul>
+<br>The following code fragment shows service instantiation:
+<pre>
+<code>
+	...
+
+	//...create the working directory
+	File wrkDir = new File(this.homeDir, "wrk");
+
+	//...create the callback if needed (proxy authorization handler)
+	IDownloadService.Callback callback = null;
+
+	//...create the download service
+	IDownloadService downloadService = DownloadServiceFactory.createInstance(wrkDir, callback);
+</code>
+</pre>
+
+<h3>GDS Facade</h3>
+The facade added to the download service allows an easy implementation
+of the basic GDS install and update use cases (see {@link
+com.eoos.gm.tis2web.dwnld.client.api.IGDSFacade}). The following code fragment shows how to download the
+newest GDS core version:
+<pre>
+	<code>
+	IDownloadService downloadService= ...
+
+	//1. get the newest core version
+	IGDSFacade facade = downloadService.getGDSFacade();
+	IDownloadUnit unit = facade.getNewestCoreVersion();
+
+	//2. create download package
+	IDownloadPackage downloadPackage = downloadService.createPackage(Collections.singleton(unit), new File(this.homeDir, "core.version." + unit.getVersionNumber()));
+
+	//3. start download
+	DownloadObserver observer = new DownloadObserverAdapter() {
+
+		public void onFinished(IDownloadPackage pkg) {
+			finished = true; //set finished flag
+		}
+
+	};
+	downloadService.startOrResumeDwnld(downloadPackage, observer);
+
+	//4. wait for termination and observe progress
+	while (!finished) {
+		IDownloadStatus status = downloadService.getStatus(downloadPackage);
+		log.info("*************************STATUS***************************************");
+		log.info("TRANSFERRED: " + status.getTransferredByteCount());
+		log.info("REMAINING TIME ESTIMATE: " + status.getRemainingTimeEstimate() + " ms, i.e. END DATE:" + new Date(System.currentTimeMillis() + status.getRemainingTimeEstimate()));
+		log.info("FINISHED: " + status.getPercentage() + "%");
+		log.info("**********************************************************************");
+		Thread.sleep(1000);
+	}
+	log.info("!!!!!DOWNLOAD FINISHED");
+	</code>
+</pre>
+Retrieving data deliverable descriptors and downloading data deliverables can be done as follows:
+<pre>
+	<code>
+	...
+
+	//1. request data deliverable descriptors
+	Collection descriptors = facade.getDeliverableDescriptors();
+	for (Iterator iter = descriptors.iterator(); iter.hasNext();) {
+		IDeliverableDescriptor dd = (IDeliverableDescriptor) iter.next();
+		log.info("retrieved deliverable descriptor: " + String.valueOf(dd));
+	}
+
+	...
+	IDeliverableDescriptor selectedDescriptor = ...
+
+	//2. create download package for the corresponding data deliverable
+	IDownloadPackage downloadPackage2 = facade.createPackage(selectedDescriptor, new File(homeDir, "data.deliverable"));
+
+	//3. start download
+		...
+	</code>
+</pre>
+
+<h3>General Download Service Usage</h3>
+The only difference to the descriptions above is with respect to the retrieval of
+download units. This is done by invoking {@link
+com.eoos.gm.tis2web.dwnld.client.api.IDownloadService#getDownloadUnits(java.util.Collection)}
+with a collection of download filters. The filters are logically ANDed.
+At the moment there are two kinds of filters:
+<ol>
+	<li>version filter (see {@link
+	com.eoos.gm.tis2web.dwnld.client.api.IDownloadService#createVersionFilter(java.lang.String)})
+	</li>
+	<li>classification filter (provided explicit via the interface
+	(e.g. {@link
+	com.eoos.gm.tis2web.dwnld.client.api.IDownloadService#FILTER_KDR_DATA_DELIVERABLE}))
+	</li>
+
+</ol>
+<pre>
+	<code>
+	...
+
+	IDownloadService downloadService = ...
+
+	// retrieve available download units of type "data deliverable"
+	Collection units = downloadService.getDownloadUnits(Collections.singleton(IDownloadService.FILTER_KDR_DATA_DELIVERABLE));
+
+	// create download package
+	IDownloadPackage downloadPackage = downloadService.createPackage(units, new File(this.homeDir, "data.deliverables"));
+
+	// start download
+	...
+	</code>
+</pre>
+
+</body>
+</html>

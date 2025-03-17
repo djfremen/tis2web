@@ -1,0 +1,34 @@
+           SICTOCService siCTOCService=(SICTOCService)CTOCServiceProvider.getInstance().getService(CTOCServiceProvider.SI);
+            this.root = siCTOCService.getCTOC().getCTOC(rootVCR);
+            CTOCNode components =(CTOCNode)this.root.getProperty(CTOCProperty.COMPONENT_LIST);
+            if ( components != null ) {
+               List list = components.getChildren();
+               if ( list != null ) {
+                  for ( int i=0; i<list.size(); i++ ) {
+                     SITOCElement component = (SITOCElement)list.get(i);
+                     Object compid = component.getProperty(CTOCProperty.COMPONENT_ID );
+                     List list2 = component.getChildren();
+                     if ( list2 != null ) {
+                        for ( int j=0; j<list2.size(); j++ ) {
+                           SITOCElement x = (SITOCElement)list2.get(j);
+                           Object ag = x.getProperty( SIOProperty.WIS_SCT );
+                           List ags = root.getChildren();
+                           for ( int k=0; k<ags.size(); k++ ) {
+                              SITOCElement node = (SITOCElement) ags.get(k);
+                              if ( ag.equals(node.getProperty(CTOCProperty.AssemblyGroup) ) ) {
+                                 ag =node.getLabel(LocaleInfoProvider.getInstance().getLocale("en_GB"));
+                                 List sits = (List) x.getProperty(SIOProperty.SIT );
+                                 for ( int l=0; l<sits.size(); l++ ) {
+                                    SITOCElement snode = (SITOCElement)sits.get(l);
+                                    String sit =snode.getLabel(LocaleInfoProvider.getInstance().getLocale("en_GB"));
+                                    System.out.println("compid="+compid+"ag="+ag+" sit="+sit);
+                                 }
+                                 break;
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+

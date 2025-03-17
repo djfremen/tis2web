@@ -1,0 +1,80 @@
+    <TABLE id="vehicle" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <TBODY>
+
+            <SCRIPT LANGUAGE="JavaScript">
+
+                if(window.navigator.appName == "Netscape") {
+                    window.captureEvents(Event.KEYDOWN);
+                    window.onkeypress = netscapeFilterKeystroke;
+                    window.captureEvents(Event.KEYUP);
+                    window.onkeypress = netscapeFilterKeystroke;
+                    window.captureEvents(Event.KEYPRESS);
+                    window.onkeypress = netscapeFilterKeystroke;
+                }
+                    if(window.navigator.appName == "Microsoft Internet Explorer") {
+                    window.document.onkeypress = microsoftFilterKeystroke;
+                }
+
+
+                function netscapeFilterKeystroke(e) {
+                    var retValue = false;
+                    var keyCode  = e.which;
+
+                    if(e.target.name == "vinInputEdit") {
+                        if(keyCode >= 48 && keyCode <= 57) {
+                            retValue = true;
+                        }
+                        if(keyCode >= 65 && keyCode <= 90) {
+                            if(keyCode != 73 && keyCode != 79 && keyCode != 81) {
+                                retValue = true;
+                            }
+                        }
+                        if(keyCode >= 97 && keyCode <= 122) {
+                            if(keyCode != 105 && keyCode != 111 && keyCode != 113) {
+                                e.target.value = e.target.value.toUpperCase();
+                                retValue = true;
+                            }
+                        }
+                        if(keyCode == 95 || keyCode == 0) {
+                            retValue = true;
+                        }
+                    } else {
+                        retValue = true;
+                    }
+                    return retValue;
+                }
+
+                function microsoftFilterKeystroke() {
+                    if(window.event.srcElement.name == "vinInputEdit") {
+                        var retValue = false;
+                        var keyCode  = window.event.keyCode;
+
+                        if(keyCode >= 48 && keyCode <= 57) {
+                            retValue = true;
+                        }
+                        if(keyCode >= 65 && keyCode <= 90) {
+                            if(keyCode != 73 && keyCode != 79 && keyCode != 81) {
+                                retValue = true;
+                            }
+                        }
+                        if(keyCode >= 97 && keyCode <= 122) {
+                            if(keyCode != 105 && keyCode != 111 && keyCode != 113) {
+                                keyCode  = keyCode - 32;
+                                retValue = true;
+                            }
+                        }
+                        if(keyCode == 95) {
+                            retValue = true;
+                        }
+                        window.event.keyCode = keyCode;
+                        window.event.returnValue = retValue;
+                    }
+                }
+            </SCRIPT>
+
+            <TR><TD align="center" valign="center"> {HOME_PANEL} </TD></TR>
+            <TR><TD align="left" valign="center"><span style="color:red">*</span>{LABEL_MANDATORY}</TD></TR>
+            <TR><TD align="center" valign="center"> {ACTION_BUTTONS} </TD></TR>
+        </TBODY>
+    </TABLE>
+</P>

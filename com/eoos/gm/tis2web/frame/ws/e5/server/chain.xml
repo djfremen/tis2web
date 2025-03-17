@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+    <handler-chain>
+        <handler>
+            <handler-name>ChainEnd</handler-name>
+            <handler-class>com.eoos.gm.tis2web.frame.ws.e5.server.handler.ChainEnd</handler-class>
+        </handler>
+        <handler>
+            <handler-name>EoosSecurityHandler</handler-name>
+            <handler-class>com.eoos.gm.tis2web.frame.ws.e5.server.handler.EoosSecurityHandler</handler-class>
+        </handler>
+        <handler>
+            <handler-name>ImtSecurityHandler</handler-name>
+            <handler-class>com.eoos.gm.tis2web.frame.ws.e5.server.handler.ImtSecurityHandler</handler-class>
+        </handler>
+        <handler>
+            <handler-name>LogHandler</handler-name>
+            <handler-class>com.eoos.gm.tis2web.frame.ws.e5.server.handler.LogHandler</handler-class>
+        </handler>
+    </handler-chain>
+</handler-chains>

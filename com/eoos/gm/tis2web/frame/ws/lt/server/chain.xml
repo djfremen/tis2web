@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+    <handler-chain>
+        <handler>
+            <handler-name>MsgLogHandler</handler-name>
+            <handler-class>com.eoos.gm.tis2web.frame.ws.lt.server.util.MsgLogHandler</handler-class>
+        </handler>
+    </handler-chain>
+</handler-chains>

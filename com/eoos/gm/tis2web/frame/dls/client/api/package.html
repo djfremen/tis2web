@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+Provides the API for the desktop launch security (DLS) service.
+
+
+<h2>Specification and API Usage</h2>
+The DLS is based on the concept of a {@link com.eoos.gm.tis2web.frame.dls.client.api.Lease lease}. 
+Each time a client request application start from within the web application, it will in turn receive a lease that
+allows for local startup until the lease expires. A client application therefore 
+{@link com.eoos.gm.tis2web.frame.dls.client.api.DLSServiceFactory creates
+an instance of the Desktop Launch Security service} which it {@link com.eoos.gm.tis2web.frame.dls.client.api.DLSService#getLease(com.eoos.gm.tis2web.frame.dls.client.api.DLSService.ServerSelection) queries for a valid lease}.
+If no lease can be found or the lease is expired, a corresponding exception is thrown. Furthermore if the client
+is interested in the expiration date it may call the {@link com.eoos.gm.tis2web.frame.dls.client.api.DLSService#getExpirationDate(com.eoos.gm.tis2web.frame.dls.client.api.Lease) corresponding service method}.
+
+</body>
+</html>

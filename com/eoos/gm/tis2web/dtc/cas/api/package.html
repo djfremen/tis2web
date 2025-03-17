@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+Provides the API for asynchronous DTC upload.
+
+
+<h2>API Usage</h2>
+
+The following code sample shows the usage of the API:
+<pre>
+	<code>
+	...
+	byte[] dtc=...
+
+	// 1. create instance of IDTCUpload
+	IDTCUpload dtcUpload = DTCUploadFactory.createInstance(wrkDir, null);
+
+	// 2. start upload
+	Identifier id = dtcUpload.upload(Collections.singleton(dtc));
+
+	//3. wait for termination
+	while (!dtcUpload.finished(id)) {
+                Thread.sleep(100);
+    }
+    ...
+	</code>
+</pre>
+
+
+</body>
+</html>

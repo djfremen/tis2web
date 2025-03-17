@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML lang="{LANGUAGE}">
+<HEAD>
+    {BASE}
+    <meta http-equiv="Content-Type" content="text/html; charset={ENCODING}" />
+    <link rel="stylesheet" type="text/css" href="{STYLESHEET}" />
+
+
+    <TITLE>{TITLE}</TITLE>
+
+    <script type="text/javascript">
+    <!--
+            function TFormSubmit(paramName, paramValue, bookmark, targetFrame) {
+            	TFormSubmit(paramName, paramValue, bookmark, targetFrame, false);
+           }
+
+            var flag=false;
+            function TFormSubmit(paramName,paramValue,bookmark,targetFrame, disposeWindow) {
+               //JAVASCRIPT-DISABLE
+               if (!flag) {
+               flag=true;
+               window.setTimeout("flag=false", 5000);
+               var _form=document.forms[0];
+	           if (_form) {
+	               var oldaction=_form.action;
+	               _form.action=_form.action+"&"+paramName+"="+paramValue+"&bm="+bookmark+"#"+bookmark;
+	               if (targetFrame) {
+	               		//window.open("about:blank",targetFrame,"toolbar=no, resizable=yes, menubar=yes, scrollbars=yes");
+	                   	var tmp=_form.target;
+			           _form.target=targetFrame;
+			           _form.submit();
+			           _form.target=tmp;
+		           } else {
+		               _form.submit();
+		           }
+	               _form.action=oldaction;
+
+	               if (disposeWindow) {
+	               	 window.close();
+	               }
+
+	            } else {
+	               alert("form not found");
+	            }
+	            //JAVASCRIPT-DISABLE-END
+}
+             }
+
+            function FormSubmit(paramName,paramValue,bookmark) {
+                TFormSubmit(paramName,paramValue,bookmark,null);
+            }
+
+     //-->
+    </script>
+    {ADDITIONAL_SCRIPT}
+
+</HEAD>
+
+
+<BODY {ONLOAD} {BODY_ATTRIBUTES}>
+    {CONTENT}
+</BODY>
+</HTML>

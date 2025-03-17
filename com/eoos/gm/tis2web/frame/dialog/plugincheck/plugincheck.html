@@ -1,0 +1,42 @@
+<table class="dialog" align="center" border="0" cellspacing="1">
+    <!--PluginCheckDialog-->
+    <tr>
+      <td class="content" align="center">{MESSAGE}</td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr><td align="center">{BUTTON_SKIP}</td></tr>
+    
+    
+    
+ </table>
+    
+    	{INCLUDED_SCRIPT}
+    	<script type="text/javascript" language="JavaScript1.2" >
+    	<!--
+    
+    	var checkFunctions=new Array({FUNCTIONNAMES});
+    	
+    	
+    
+    	function CheckPlugin() {
+	    	var status=0;
+	    	try {
+			    	for (var i=0; i<checkFunctions.length ;i++) {
+			    		var fkt=checkFunctions[i];
+			    		if (eval(fkt)) {
+			    			status=status+(1<<i);
+			    		}
+			    	}
+	    	    	FormSubmit("pluginstatus",status,null);
+	    	
+	    	} catch (e) {
+	    		//alert("Error occured when checking installed plugins : "+e);
+	    		FormSubmit("pluginstatus",-1,null);
+	    	}
+	    	
+    	}
+    	
+    	CheckPlugin();
+    //-->
+    </script>

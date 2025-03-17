@@ -1,0 +1,57 @@
+td {
+	font-size: 16px;
+}
+
+th {
+	font-size: 16px;
+	font-weight : bold;
+}
+
+.bodystyle {
+	font-size: 12px;
+}
+
+.small {
+	font-size: 9px;
+ }
+
+.medium {
+	font-size: 12px;
+}
+
+.big {
+	font-size: 18px;
+}
+
+.xbig {
+	font-size: 24px;
+}
+
+.expanded {
+	font-size: 12px;
+	line-height: 24px;
+	letter-spacing: 2px;
+}
+
+.justified {
+	text-align: justify;
+}
+
+.footer {
+	font-size: 9px;
+	color: rgb(153, 153, 153);
+}
+
+.box1 {
+	border-style: solid;
+	border-color: rgb(204, 204, 204) rgb(102, 102, 102) rgb(102, 102, 102) rgb(204, 204, 204);
+	border-width: medium;
+	padding: 3px;
+}
+
+.box2 {
+	border: 1px solid ;
+	padding: 3px;
+	font-style: italic;
+	word-spacing: 2pt;
+}
